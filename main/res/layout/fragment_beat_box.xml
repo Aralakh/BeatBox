@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+   <data>
+       <variable
+           name="seekBarModel"
+           type="com.bignerdranch.android.beatbox.SeekBarAdapter"/>
+   </data>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
 
-    </layout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:layout_gravity="bottom">
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/seekBar_label"
+                android:progress="@{seekBarModel.seekBarValue}"
+                android:onProgressChanged="@{seekBarModel.onProgressChanged}"
+                style="@style/Widget.AppCompat.SeekBar"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar_label"
+                android:text="@{String.format(@string/seekBar_label, seekBarModel.getSpeed)}"
+                android:paddingStart="8dp"/>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+</layout>

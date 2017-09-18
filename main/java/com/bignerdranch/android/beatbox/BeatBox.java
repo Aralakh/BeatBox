@@ -19,15 +19,19 @@ public class BeatBox {
     private static final String TAG = "BeatBox";
     private static final String SOUNDS_FOLDER = "sample_sounds";
     private static final int MAX_SOUNDS = 5;
+    public static final float MIN_PLAYBACK_SPEED = 0.5f;
+    public static final float MAX_PLAYBACK_SPEED = 2.0f;
 
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
     private SoundPool mSoundPool;
+    private float mPlayBackSpeed;
 
     public BeatBox(Context context){
         mAssets = context.getAssets();
         //this is deprecated but needed for compatibility
         mSoundPool = new SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC, 0);
+        mPlayBackSpeed = 1.0f;
         loadSounds();
     }
 
@@ -36,13 +40,27 @@ public class BeatBox {
         if(soundId == null){
             return;
         }
-        mSoundPool.play(soundId, 1.0f, 1.0f, 1, 0, 1.0f);
+        mSoundPool.play(soundId, 1.0f, 1.0f, 1, 0, mPlayBackSpeed);
     }
 
     public void release(){
         mSoundPool.release();
     }
 
+    public float getPlayBackSpeed(){
+        return mPlayBackSpeed;
+    }
+
+
+    public void setPlayBackSpeed(float playBackSpeed){
+        if(playBackSpeed > MAX_PLAYBACK_SPEED){
+            mPlayBackSpeed = MAX_PLAYBACK_SPEED;
+        }else if(playBackSpeed < MIN_PLAYBACK_SPEED){
+            mPlayBackSpeed = MIN_PLAYBACK_SPEED;
+        }else{
+            mPlayBackSpeed =playBackSpeed;
+        }
+    }
     private void loadSounds(){
         String[] soundNames;
         try{
